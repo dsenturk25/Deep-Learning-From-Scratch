@@ -2,6 +2,7 @@
 import numpy as np
 import nnfs
 from nnfs.datasets import spiral_data
+import matplotlib.pyplot as plt
 
 nnfs.init()
 '''
@@ -147,6 +148,7 @@ def train(iterations, alpha):
     W2 = Z2.weights
     B1 = Z1.biases
     B2 = Z2.biases
+    loss = 0
     for i in range(iterations):
         Z1, Z2, A1, A2, loss, accuracy = forward_propagate(Z1, Z2)
         dW1, dB1, dW2, dB2 = backward_propagate(Z1.output, A1.output, Z2.output, A2.output, W1, W2)
@@ -159,6 +161,60 @@ def train(iterations, alpha):
         print("Loss: {}".format(loss))
         print("Accuracy: {}".format(accuracy))
 
-    return W1, W2, B1, B2
+    return W1, W2, B1, B2, loss
 
-train(1000000, 0.1)
+
+learningRateX = [-1,
+                 -0.9,
+                 -0.8,
+                 -0.6,
+                 -0.5,
+                 -0.4,
+                 -0.3,
+                 -0.2,
+                 -0.1,
+                 0,
+                 0.1,
+                 0.2,
+                 0.3,
+                 0.4,
+                 0.5,
+                 0.6,
+                 0.7,
+                 0.8,
+                 0.9,
+                 1]
+learningRateY = [0.25946102,
+                 0.3501676,
+                 0.9640169,
+                 0.0066454783,
+                 0.010988098,
+                 0.59635836,
+                 0.8748962,
+                 0.46325165,
+                 0.22478895,
+                 0.6899418,
+                 0.20339519,
+                 0.44577387,
+                 0.46853596,
+                 0.0029323117,
+                 0.46220347,
+                 1.0986122,
+                 0.28997412,
+                 0.5952785,
+                 0.42187908,
+                 0.15039048]
+
+coefficients = np.polyfit(learningRateX, learningRateY, 10)
+polynomial = np.poly1d(coefficients)
+
+plt.scatter(learningRateX, learningRateY)
+
+plt.title("Learning rate (alpha) vs. loss for 20000 iterations, spiral data")
+
+x_values = np.linspace(min(learningRateX), max(learningRateX), 100)
+y_values = polynomial(x_values)
+
+plt.plot(x_values, y_values, color='red')
+
+plt.show()
