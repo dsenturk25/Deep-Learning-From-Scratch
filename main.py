@@ -135,7 +135,7 @@ def backward_propagate(Z1, A1, Z2, A2, W1, W2):
 
 def update_params(W1, B1, W2, B2, dW1, dB1, dW2, dB2, alpha):  # alpha is just the learning rate
     W1 = W1 - alpha * dW1.T
-    W2 = W2 - alpha * dW2
+    W2 = W2 - alpha * dW2.T
     B1 = B1 - alpha * dB1.T
     B2 = B2 - alpha * dB2
     return W1, W2, B1, B2
@@ -163,7 +163,7 @@ def train(iterations, alpha):
 
     return W1, W2, B1, B2, loss
 
-
+'''
 learningRateX = [-1,
                  -0.9,
                  -0.8,
@@ -218,3 +218,6 @@ y_values = polynomial(x_values)
 plt.plot(x_values, y_values, color='red')
 
 plt.show()
+'''
+
+train(100000, 0.1)
